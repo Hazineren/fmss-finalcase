@@ -1,0 +1,17 @@
+.header-content{
+    min-height: 30vh;
+    /* background: linear-gradient( rgba(35, 35, 37, 0.993),rgba(117, 117, 180, 0.829)), url('../../images/starwars.jpg') center/cover no-repeat; */
+    background:linear-gradient( rgba(51, 45, 58, 0.993),rgba(2, 2, 2, 0.151));
+    flex-direction: column;
+}
+
+.header-title{
+    font-size: 4.2rem;
+}
+
+.header-text{
+    margin-top: -1.8rem;
+    margin-bottom: 2.8rem;
+    opacity: 0.8;
+    max-width: 770px;
+}
