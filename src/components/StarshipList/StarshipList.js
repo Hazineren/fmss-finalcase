@@ -43,12 +43,12 @@ const starshipsWithCovers = data?.pages.flatMap((page) => {
   if(loading) return <Loading/>
 
   return (
-    <section className='booklist'>
+    <section className='starship'>
       <div className='container'>
         <div className='section-title'>
           <h2>{resultTitle}</h2>
         </div>
-        <div className='booklist-content grid'>
+        <div className='starship-content grid'>
           {
             starshipsWithCovers?.map((item, index) => {
               return (
@@ -57,7 +57,7 @@ const starshipsWithCovers = data?.pages.flatMap((page) => {
             })
           }
         </div>
-        <div className='booklist-footer'>
+        <div className='starship-footer'>
         {hasNextPage && (
           <button onClick={() => fetchNextPage()} disabled={isLoading} >
             {isLoading ? 'Loading...' : 'Load More'}

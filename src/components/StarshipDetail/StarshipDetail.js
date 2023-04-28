@@ -60,7 +60,7 @@ const StarshipDetail = () => {
   if (loading) return <Loading />
 
   return (
-    <section className='book-details'>
+    <section className='starship-details'>
       <div className='container'>
         <button type='button' className='flex flex-c back-btn' onClick={() => navigate("/starship")}>
           <FaArrowLeft size={22} />
@@ -68,40 +68,40 @@ const StarshipDetail = () => {
         </button>
       </div>
       
-        <div className='book-details-content grid'>
-          <div className='book-details-img'>
+        <div className='starship-details-content grid'>
+          <div className='starship-details-img'>
             <img src={starship?.cover_img} alt="cover img" />
           </div>
-          <div className='book-details-info'>
-            <div className='book-details-item title'>
+          <div className='starship-details-info'>
+            <div className='starship-details-item title'>
               <span className='fw-6 fs-24'>{starship?.name}</span>
             </div>
             <hr style={{ height: '4px', backgroundColor: 'var(--light-black-color)', border: 'none', marginBottom: '25px' }}></hr>
-            <div className='book-details-item'>
+            <div className='starship-details-item'>
               <span className='fw-6'>Model: </span>
               <span>{starship?.model}</span>
             </div>
-            <div className='book-details-item'>
+            <div className='starship-details-item'>
               <span className='fw-6'>Hyperdrive Rating: </span>
               <span className='text-italic'>{starship?.hyperdrive_rating}</span>
             </div>
-            <div className='book-details-item'>
+            <div className='starship-details-item'>
               <span className='fw-6'>Passengers: </span>
               <span className='text-italic'>{starship?.passengers}</span>
             </div>
-            <div className='book-details-item'>
+            <div className='starship-details-item'>
               <span className='fw-6'>Max Atmosphering Speed: </span>
               <span>{starship?.max_atmosphering_speed}</span>
             </div>
-            <div className='book-details-item'>
+            <div className='starship-details-item'>
               <span className='fw-6'>Manufacturer: </span>
               <span>{starship?.manufacturer}</span>
             </div>
-            <div className='book-details-item'>
+            <div className='starship-details-item'>
               <span className='fw-6'>Crew: </span>
               <span>{starship?.crew}</span>
             </div>
-            <div className='book-details-item'>
+            <div className='starship-details-item'>
               <span className='fw-6'>Cargo Capacity: </span>
               <span>{starship?.cargo_capacity}</span>
             </div>
