@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import { useStarships } from '../../context'
-import axios from 'axios';
-import { useInfiniteQuery } from 'react-query';
 import Loading from '../Loader/Loader'
 import coverImg from '../../images/cover_not_found.jpg';
 import starshipImg from '../../images/starship.jpg'
@@ -9,38 +7,22 @@ import Starship from '../StarshipList/Starship'
 
 const StarshipList = () => {
 
-  const { starships, loading, resultTitle,showHeader, setShowHeader} = useStarships();
-useEffect(()=> {
-  setShowHeader(true)
-})
+  const { pageCount, setPageCount,loading,starships, resultTitle, setShowHeader } = useStarships();
 
-const fetchStarships = async ({ pageParam = 1 }) => {
-  const response = await axios.get(`https://swapi.dev/api/starships/?page=${pageParam}`);
-  return response.data;
-};
+  useEffect(() => {
+    setShowHeader(true)
+  })
 
-const {
-  data,
-  fetchNextPage,
-  hasNextPage,
-  isLoading,
-  isError,
-  error,
-} = useInfiniteQuery('starships', fetchStarships, {
-  getNextPageParam: (lastPage) => {
-    return lastPage.next ? lastPage.next.match(/page=(\d+)/)[1] : undefined;
-  },
-});
 
-const starshipsWithCovers = data?.pages.flatMap((page) => {
-  return page.results.map((singleStarship) => ({
-    ...singleStarship,
-    id: singleStarship.url.split("/")[5],
-    cover_img: singleStarship.url.split("/")[5] ? starshipImg : coverImg,
-  }));
-});
-
-  if(loading) return <Loading/>
+  const starshipsWithCovers = starships.map((singleStarship) => {
+      return {
+        ...singleStarship,
+        id: singleStarship.id,
+        cover_img: singleStarship.id ? starshipImg : coverImg,
+      };
+    });
+  console.log(pageCount,' var mı')
+  if (loading) return <Loading />
 
   return (
     <section className='starship'>
@@ -50,19 +32,20 @@ const starshipsWithCovers = data?.pages.flatMap((page) => {
         </div>
         <div className='starship-content grid'>
           {
+            //.slice(0, 10)
             starshipsWithCovers?.map((item, index) => {
               return (
-                <Starship key = {index} {...item} />
+                <Starship key={index} {...item} />
               )
             })
           }
         </div>
         <div className='starship-footer'>
-        {hasNextPage && (
-          <button onClick={() => fetchNextPage()} disabled={isLoading} >
-            {isLoading ? 'Loading...' : 'Load More'}
-          </button>
-        )}
+          {(pageCount<4) && (
+            <button onClick={() => setPageCount(pageCount < 4 ? pageCount + 1 : pageCount)} disabled={loading} >
+              {loading ? 'Loading...' : 'Load More'}
+            </button>
+          )}
         </div>
       </div>
     </section>

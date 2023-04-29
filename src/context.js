@@ -7,25 +7,36 @@ const AppContext = React.createContext();
 export const AppProvider = ({ children }) => {
     const [searchTerm, setSearchTerm] = useState('')
     const [starships, setStarships] = useState([]);
+    const [hasNextPage, setHasNextPage] = useState(false);
+    const [pageCount, setPageCount] = useState(1);
     const [loading, setLoading] = useState(true);
     const [resultTitle, setResultTitle] = useState('');
     const [showHeader, setShowHeader] = useState(true);
 
+
     const fetchStarships = useCallback(async () => {
+        if (searchTerm != '') {
+            // If searchTerm triggered this function, directly set the newStarships as the new list.
+            setPageCount('');
+
+        } else {
+            // If pageCount triggered this function, append newStarships to the existing list.
+            setPageCount(pageCount);
+        }
         try {
-            axios(`${URL}?search=${searchTerm}`)
+            axios(`${URL}?search=${searchTerm}&page=${pageCount}`)
                 .then((res) => {
+
                     const { results } = res.data;
 
-                    console.log(results)
                     if (results) {
-                        const newStarships = results.slice(0, 20).map((starshipSingle) => {
+                        const newStarships = results?.map((starshipSingle) => {
 
                             const { url } = starshipSingle;
                             const shipId = url.split("/")[5];
-                            console.log(`Starship ID: ${shipId}`);
+
                             const { name, model, hyperdrive_rating, passengers, max_atmosphering_speed, manufacturer, crew, cargo_capacity } = starshipSingle;
-                            //console.log(starshipSingle,' context');
+
                             return {
                                 id: shipId,
                                 name: name,
@@ -37,9 +48,18 @@ export const AppProvider = ({ children }) => {
                                 crew: crew,
                                 cargo_capacity: cargo_capacity
                             }
+
+
                         });
 
-                        setStarships(newStarships)
+                        if (searchTerm) {
+                            // If searchTerm triggered this function, directly set the newStarships as the new list.
+                            setStarships(newStarships);
+                        } else {
+                            // If pageCount triggered this function, append newStarships to the existing list.
+                            setStarships(prevState => [...prevState, ...newStarships]);
+                        }
+
 
                         if (newStarships.length > 0) {
                             setResultTitle('Your Search Result')
@@ -59,15 +79,20 @@ export const AppProvider = ({ children }) => {
             console.log(error);
             setLoading(false);
         }
-    }, [searchTerm])
+    }, [searchTerm, pageCount])
+
 
     useEffect(() => {
 
         fetchStarships();
-    }, [searchTerm, fetchStarships])
+    }, [searchTerm, pageCount, fetchStarships])
 
     return (
-        <AppContext.Provider value={{ loading, starships, setSearchTerm, resultTitle, setResultTitle,showHeader, setShowHeader }}>{children}</AppContext.Provider>
+        <AppContext.Provider value={{
+            setStarships,
+            hasNextPage, setHasNextPage, pageCount, setPageCount,
+            loading, starships, searchTerm, setSearchTerm, resultTitle, setResultTitle, showHeader, setShowHeader
+        }}>{children}</AppContext.Provider>
     )
 }
 

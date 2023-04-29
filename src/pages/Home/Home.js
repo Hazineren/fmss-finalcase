@@ -8,7 +8,6 @@ const queryClient = new QueryClient();
 
 const Home = () => {
   const { showHeader } = useStarships();
-  console.log(showHeader, '2222');
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -7,16 +7,17 @@ import './SearchForm.css'
 
 const SearchForm = () => {
 
-  const {setSearchTerm, setResultTitle} = useStarships();
+  const {setSearchTerm, setResultTitle, starships} = useStarships();
   const searchText = useRef('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    handleSubmit();
+    //handleSubmit();
     searchText.current.focus();
   }, []);
 
   const handleSubmit = (e) => {
+    if (e) e.preventDefault();
     let tempSearchTerm = searchText.current.value.trim();
     if((tempSearchTerm.replace(/[^\w\s]/gi,'')).length===0){
       setSearchTerm('');
@@ -25,6 +26,7 @@ const SearchForm = () => {
       setSearchTerm(searchText.current.value);
     }
     navigate('/starship')
+    //console.log(starships,'liste')
   };
 
 
