@@ -14,16 +14,18 @@ export const AppProvider = ({ children }) => {
     const [showHeader, setShowHeader] = useState(true);
 
 
-    const fetchStarships = useCallback(async () => {
+    const fetchStarships = useCallback(() => {
         if (searchTerm != '') {
-            // If searchTerm triggered this function, directly set the newStarships as the new list.
+            // searchTerm tetiklendiyse, load more butonunu inaktif ettik
             setPageCount('');
 
         } else {
-            // If pageCount triggered this function, append newStarships to the existing list.
+            // Eğer pageCount tetiklendiyse, load More butonumuz aktif kaldı ve pageCount değerini atadık
             setPageCount(pageCount);
         }
         try {
+            // Burada axios'um bir then zinciri içerisinde olduğu için 
+            // fonksiyonu ayrıca async olarak oluşturmadım
             axios(`${URL}?search=${searchTerm}&page=${pageCount}`)
                 .then((res) => {
 
@@ -53,10 +55,10 @@ export const AppProvider = ({ children }) => {
                         });
 
                         if (searchTerm) {
-                            // If searchTerm triggered this function, directly set the newStarships as the new list.
+                            // searchTerm tetiklendiyse, newStarships'i doğrudan yeni liste olarak ayarladık.
                             setStarships(newStarships);
                         } else {
-                            // If pageCount triggered this function, append newStarships to the existing list.
+                            // Eğer pageCount tetiklendiyse, newStarships'i mevcut listeye ekledik.
                             setStarships(prevState => [...prevState, ...newStarships]);
                         }
 

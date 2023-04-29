@@ -19,12 +19,14 @@ const StarshipDetail = () => {
 
   useEffect(() => {
     setLoading(true);
+    // Detay sayfasında header görünmesini istemiyoruz
     setShowHeader(false)
-    async function getStarshipDetails() {
+    function getStarshipDetails() {
       try {
+        // tıklanan starship id'sine ait detaylara ulaşmak için yeni bir istek attık
         axios(`${URL}${id}`)
           .then((res) => {
-            //const {item} = res;
+            
             if (res.data) {
               const { name, model, hyperdrive_rating, passengers, max_atmosphering_speed, manufacturer, crew, cargo_capacity } = res.data;
 
@@ -32,9 +34,9 @@ const StarshipDetail = () => {
               const newStarship = {
                 name: name ? name : 'No name found',
                 model: model,
-                hyperdrive_rating: hyperdrive_rating ? hyperdrive_rating : 'Not Found Page Hyperdrive Rating',
+                hyperdrive_rating: hyperdrive_rating ? hyperdrive_rating : 'Not Found Hyperdrive Rating',
                 cover_img: starshipImg ? starshipImg : coverImg,
-                passengers: passengers ? passengers : 'No publisher found',
+                passengers: passengers ? passengers : 'No passengers found',
                 max_atmosphering_speed: max_atmosphering_speed ? max_atmosphering_speed : 'Not Found',
                 manufacturer: manufacturer ? manufacturer : 'Not Found',
                 crew: crew ? crew : 'Not Found',
@@ -62,6 +64,7 @@ const StarshipDetail = () => {
   return (
     <section className='starship-details'>
       <div className='container'>
+        {/* Bu kısımda back butonuna basıldığında tekrar ana sayfaya dönüş sağladık */}
         <button type='button' className='flex flex-c back-btn' onClick={() => navigate("/starship")}>
           <FaArrowLeft size={22} />
           <span className='fs-18 fw-6'>Go Back</span>
@@ -70,6 +73,8 @@ const StarshipDetail = () => {
       
         <div className='starship-details-content grid'>
           <div className='starship-details-img'>
+            {/* burada starship üzerinden aldığımız bilgileri ? aracılığı
+             ile kullanarak null olması halinde hataya düşmesini engelledik */}
             <img src={starship?.cover_img} alt="cover img" />
           </div>
           <div className='starship-details-info'>

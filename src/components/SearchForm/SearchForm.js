@@ -7,17 +7,17 @@ import './SearchForm.css'
 
 const SearchForm = () => {
 
-  const {setSearchTerm, setResultTitle, starships} = useStarships();
+  const {setSearchTerm, setResultTitle} = useStarships();
   const searchText = useRef('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    //handleSubmit();
     searchText.current.focus();
   }, []);
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
+    // Özel karakterler silinir
     let tempSearchTerm = searchText.current.value.trim();
     if((tempSearchTerm.replace(/[^\w\s]/gi,'')).length===0){
       setSearchTerm('');
@@ -26,7 +26,6 @@ const SearchForm = () => {
       setSearchTerm(searchText.current.value);
     }
     navigate('/starship')
-    //console.log(starships,'liste')
   };
 
 
@@ -36,6 +35,7 @@ const SearchForm = () => {
         <div className='search-form-content'>
           <form className='search-form' onSubmit={handleSubmit}>
             <div className='search-form-elem flex flex-sb bg-white'>
+            {/* ref, searchText.current.value ile input elementinin değerine erişmek için kullanılıyor */}
               <input type = "text" className='form-control' placeholder='Death Star ...'  ref={searchText}/>
               <button type = "submit" className='flex flex-c' onClick={handleSubmit}>
                 <FaSearch className='text-purple' size = {32} />

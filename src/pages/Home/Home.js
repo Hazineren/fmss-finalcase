@@ -1,19 +1,18 @@
 import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import Header from '../../components/Header/Header';
 import { Outlet } from 'react-router-dom';
 import { useStarships } from '../../context';
 
-const queryClient = new QueryClient();
 
 const Home = () => {
   const { showHeader } = useStarships();
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <div>
+      {/* Header component'imi şart ile gösteriyorum */}
       {showHeader && <Header />}
       <Outlet />
-    </QueryClientProvider>
+    </div>
   );
 };
 

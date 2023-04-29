@@ -14,6 +14,7 @@ const StarshipList = () => {
   })
 
 
+  // gelen dataların id'si var ise resim yüklemelerini yaptık
   const starshipsWithCovers = starships.map((singleStarship) => {
       return {
         ...singleStarship,
@@ -21,7 +22,7 @@ const StarshipList = () => {
         cover_img: singleStarship.id ? starshipImg : coverImg,
       };
     });
-  console.log(pageCount,' var mı')
+
   if (loading) return <Loading />
 
   return (
@@ -32,7 +33,8 @@ const StarshipList = () => {
         </div>
         <div className='starship-content grid'>
           {
-            //.slice(0, 10)
+            //...item ifadesi, item nesnesinin tüm özelliklerini Starship bileşenine aktarmak için kullanılan bir spread operatörüdür. 
+            //Bu sayede, Starship bileşenindeki props'ların elle tek tek tanımlanması yerine, item nesnesindeki tüm özellikler Starship bileşenine geçirilir.
             starshipsWithCovers?.map((item, index) => {
               return (
                 <Starship key={index} {...item} />
@@ -41,6 +43,7 @@ const StarshipList = () => {
           }
         </div>
         <div className='starship-footer'>
+          {/* Toplam sayfa sayısını geçmediysek buton görünür */}
           {(pageCount<4) && (
             <button onClick={() => setPageCount(pageCount < 4 ? pageCount + 1 : pageCount)} disabled={loading} >
               {loading ? 'Loading...' : 'Load More'}
